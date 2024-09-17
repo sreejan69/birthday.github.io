@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stack of Photos with Video</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      background-color: #d3c7ba;
+    }
+
+    .table {
+      position: relative;
+      width: 90vw;
+      height: 60vh;
+      background-color: #d3c7ba;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .card {
+      position: absolute;
+      width: 240px;
+      height: 300px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      cursor: grab;
+      padding: 10px;
+      transition: transform 0.2s ease;
+      z-index:1
+    }
+
+    .card:active {
+      cursor: grabbing;
+    }
+
+    .card img {
+      width: 240px;
+      height: 270px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .card-text {
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+      margin-top: 10px;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* Different initial positions for the images */
+    .card1 { top: 25%; left: 15%; transform: rotate(-10deg); }
+    .card2 { top: 5%; left: 40%; transform: rotate(5deg); }
+    .card3 { top: 35%; left: 41%; transform: rotate(15deg); }
+    .card4 { top: 56%; left: 71%; transform: rotate(9deg); }
+    .card5 { top: 35%; left: 28%; transform: rotate(5deg); }
+    .card6 { top: 40%; left: 60%; transform: rotate(-10deg); }
+    .card7 { top: 5%; left:65%; transform: rotate(5deg); }
+    .card8 { top: 42%; left: 50%; transform: rotate(-15deg); }
+    .card9 { top: 5%; left: 25%; transform: rotate(8deg); }
+    .card10 { top: 20%; left: 80%; transform: rotate(-5deg); }
+    .card11 { top: 44%; left: 38%; transform: rotate(-10deg); }
+    .card12 { top: 5%; left: 50%; transform: rotate(5deg); }
+
+    /* Video container */
+    .video-container {
+      margin-top: 20px;
+      width: 80vw;
+      height: 70vh;
+      background-color: #000;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      position: relative;
+      overflow: hidden;
+      border-radius:10px;
+    }
+
+    video {
+      width:100%;
+      height:100%;
+      border-radius: 10px;
+    }
+  .Me {
+  position: fixed;
+  z-index: 15;
+  bottom: 20px;
+  left: 50%;
+  color: #111;
+  transform: translateX(-50%);
+  font-weight: 700;
+  text-align: center;
+  opacity: 0.7;
+  }
+  a{
+   background:linear-gradient(red,white);
+   background-clip:text;
+   text-decoration:none;
+  }
+  a:hover{
+   color:transparent;
+   transition:0.3s
+  }
+  </style>
+</head>
+<body>
+
+  <!-- Image Stack -->
+  <div class="table">
+    <div class="image-stack">
+      <div class="card card9">
+      <img src="i9.jpg" alt="Photo 4" class="image9">
+      <div class="card-text"></div>
+      </div> 
+      <div class="card card11">
+      <img src="i11.jpg" alt="Photo 1" class="image11">
+      <div class="card-text"></div>
+      </div>
+      <div class="card card4">
+      <img src="i4.jpg" alt="Photo 4" class="image4">
+      <div class="card-text"></div>
+      </div>
+      <div class="card card7">
+      <img src="i7.jpg" alt="Photo 2" class="image7">
+      <div class="card-text"></div>
+      </div>
+      <div class="card card12">
+      <img src="i13.jpg" alt="Photo 2" class="image12">
+      <div class="card-text"></div>
+      </div> 
+       <div class="card card8">
+      <img src="i8.jpg" alt="Photo 3" class="image8">
+       <div class="card-text"></div>
+      </div> 
+      <div class="card card10">
+      <img src="i10.jpg" alt="Photo 5" class="image10">
+      <div class="card-text"></div>
+      </div> 
+      <div class="card card5">
+      <img src="i5.jpg" alt="Photo 5" class="image5">
+      <div class="card-text"></div>
+      </div>
+ 
+      <div class="card card6">
+      <img src="i6.jpg" alt="Photo 1" class="image6">
+      <div class="card-text"></div>
+      </div>
+    
+      <div class="card card2">
+      <img src="i2.jpg" alt="Photo 2" class="image2">
+      <div class="card-text"></div>
+      </div>
+      <div class="card card1">
+      <img src="i1.jpg" alt="Photo 1" class="image1">
+      <div class="card-text"></div>
+      </div>
+      <div class="card card3">
+      <img src="i3.jpg" alt="Photo 3" class="image3"> 
+      <div class="card-text"></div>
+      </div>
+    </div>
+    <div class="video-container">
+    <video controls>
+      <source src="video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  </div>
+  <a class="Me" href="index.html" target="_top">@Sreejan Nandi</a>
+  <!-- Video Player -->
+
+
+  <!-- JavaScript for Dragging Functionality -->
+<script>
+    let selectedCard = null;
+    let shiftX = 0;
+    let shiftY = 0;
+
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+      card.addEventListener('mousedown', (e) => {
+        // Calculate the mouse shift from the card's initial position
+        shiftX = e.clientX +100 - card.getBoundingClientRect().left;
+        shiftY = e.clientY +145 - card.getBoundingClientRect().top;
+
+        // Set the position to absolute if not already
+        if (window.getComputedStyle(card).position !== 'absolute') {
+          const rect = card.getBoundingClientRect();
+          card.style.position = 'absolute';
+          card.style.left = `${rect.left}px`;
+          card.style.top = `${rect.top}px`;
+        }
+
+        // Set the selected card
+        selectedCard = card;
+      });
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (selectedCard) {
+        // Move the card along with the mouse pointer while maintaining the initial offset (shift)
+        selectedCard.style.left = e.pageX - shiftX + 'px';
+        selectedCard.style.top = e.pageY - shiftY + 'px';
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (selectedCard) {
+        selectedCard.style.zIndex = ''; // Reset z-index
+        selectedCard = null; // Deselect the card
+      }
+    });
+
+    // Prevent default drag start behavior (like text/card selection)
+    cards.forEach(card => {
+      card.ondragstart = () => false;
+    });
+  </script>
+</body>
+
+</body>
+</html>
+
